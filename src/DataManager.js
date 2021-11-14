@@ -3,12 +3,11 @@ export default class DataManager {
     this.allTrips = null;
   }
 
-  setData(location, data) {
-    this[location] = data;
+  setData(dataSet, data) {
+    this[dataSet] = data;
   }
 
-  getDataByID(location, typeOfID, IDNumber) {
-    const dataSet = this[location];
-    return dataSet.filter(data => data[typeOfID] === IDNumber);
+  getDataByID(dataSet, typeOfID, IDNumber) {
+    return this[dataSet].filter(data => data[typeOfID] === IDNumber);
   }
 }
