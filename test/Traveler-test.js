@@ -3,11 +3,14 @@ const assert = chai.assert;
 import testData from './testData';
 import DataManager from '../src/DataManager';
 import Traveler from '../src/Traveler';
+import Trip from '../src/Trip';
 
 describe('Traveler', function() {
   let dataManager;
   let traveler1;
   let traveler2;
+  let trip1;
+  let trip2;
 
 
 
@@ -16,6 +19,8 @@ describe('Traveler', function() {
     dataManager.setData('allTrips', testData.testTrips);
     traveler1 = new Traveler(dataManager, testData.testTravelers[0]);
     traveler2 = new Traveler(dataManager, testData.testTravelers[1]);
+    trip1 = new Trip(testData.testTrips[0]);
+    trip2 = new Trip(testData.testTrips[1]);
   });
 
   it('should be a function', function() {
@@ -41,8 +46,8 @@ describe('Traveler', function() {
 
   it('should store all of its trips', function() {
     traveler1.getTravelerTrips();
-    assert.deepEqual(traveler1.trips, [testData.testTrips[0]]);
+    assert.deepEqual(traveler1.trips, [trip1]);
     traveler2.getTravelerTrips();
-    assert.deepEqual(traveler2.trips, [testData.testTrips[1]]);
+    assert.deepEqual(traveler2.trips, [trip2]);
   });
 });

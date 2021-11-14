@@ -6,7 +6,7 @@ export default class Trip {
     this.date = tripData.date;
     this.duration = tripData.duration;
     this.status = tripData.status;
-    this.timeFrame = '';
+    this.timeFrame = this.getTripTimeFrame();
   }
 
   convertDates() {
@@ -20,9 +20,9 @@ export default class Trip {
   getTripTimeFrame() {
     const convertedDates = this.convertDates();
     if (convertedDates.tripDate <= convertedDates.currentDate) {
-      this.timeFrame = 'passed';
+      return 'passed';
     } else {
-      this.timeFrame = 'upcoming';
+      return 'upcoming';
     }
   }
 }

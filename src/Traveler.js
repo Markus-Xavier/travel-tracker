@@ -1,3 +1,5 @@
+import Trip from "./Trip";
+
 export default class Traveler {
   constructor (dataManager, travelerData) {
     this.dataManager = dataManager;
@@ -8,6 +10,8 @@ export default class Traveler {
   }
 
   getTravelerTrips () {
-    this.trips = this.dataManager.getDataByID('allTrips', 'userID', this.id);
+    const trips = this.dataManager.getDataByID('allTrips', 'userID', this.id);
+    this.trips = trips.map(trip => new Trip(trip));
+    console.log(this.trips);
   }
 }
