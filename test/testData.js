@@ -22,17 +22,17 @@ const testData = {
     },
     {
       "id": 3,
-      "userID": 3,
+      "userID": 1,
       "destinationID": 3,
       "travelers": 4,
-      "date": "2022/05/22",
+      "date": "2019/05/18",
       "duration": 17,
       "status": "approved",
       "suggestedActivities": []
     },
     {
       "id": 4,
-      "userID": 4,
+      "userID": 2,
       "destinationID": 4,
       "travelers": 2,
       "date": "2022/02/25",
