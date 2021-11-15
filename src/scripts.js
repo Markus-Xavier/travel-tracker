@@ -61,13 +61,3 @@ Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travele
     startListen();
   });
 
-// apiCalls.fetchAllData('trips')
-//   .then(response => {
-//     dataManager.setData('allTrips', response);
-//   });
-
-
-
-// apiCalls.fetchSpecificData('travelers', 1)
-//   .then(response => console.log(response));
-
