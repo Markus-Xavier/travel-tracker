@@ -76,5 +76,10 @@ describe('Traveler', function() {
     traveler1.getTravelerTrips();
     traveler2.getTravelerTrips();
     assert.deepEqual(traveler1.filterTrips('status', 'pending'), [trip5]);
-  })
+  });
+
+  it('should get the total amount of money that has been spent on trips this year', function() {
+    traveler2.getTravelerTrips();
+    assert.equal(traveler2.getYearlySpent(), 1485);
+  });
 });

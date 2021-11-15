@@ -12,6 +12,8 @@ import './images/turing-logo.png'
 const dashboardNavButtons = document.getElementsByClassName('dashboard-buttons')[0];
 const dashboardCardSection = document.getElementsByClassName('dashboard-cards')[0];
 const noTripText = document.querySelector('.dashboard-cards span');
+const userBadgeName = document.getElementsByClassName('user-badge-name')[0];
+const userBadgeAmount = document.getElementsByClassName('user-badge-amount')[0];
 
 
 
@@ -40,6 +42,11 @@ const displayTravelCards = (displayData, location) => {
     <div>${data.date}</div>
     </div>`
   });
+}
+
+const displayUserBadge = (user) => {
+  userBadgeName.innerText = `Hi, ${user.name}`;
+  userBadgeAmount.innerText = `Total spent on trips ${user}`
 }
 
 const dashboardButtonHandler = (event) => {

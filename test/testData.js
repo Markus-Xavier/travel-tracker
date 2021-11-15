@@ -15,7 +15,7 @@ const testData = {
       "userID": 2,
       "destinationID": 2,
       "travelers": 5,
-      "date": "2019/07/16",
+      "date": "2021/07/16",
       "duration": 18,
       "status": "approved",
       "suggestedActivities": []

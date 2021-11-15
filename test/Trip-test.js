@@ -32,7 +32,7 @@ describe('Trip', function() {
     assert.equal(trip1.status, 'approved');
     assert.equal(trip2.id, 2);
     assert.equal(trip2.travelers, 5);
-    assert.equal(trip2.date, '2019/07/16');
+    assert.equal(trip2.date, '2021/07/16');
     assert.equal(trip2.duration, 18);
     assert.equal(trip2.status, 'approved');
   });
