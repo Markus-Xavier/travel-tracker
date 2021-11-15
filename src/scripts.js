@@ -20,6 +20,11 @@ const dataManager = new DataManager();
 let traveler = null;
 
 const displayTravelCards = (displayData, location) => {
+  if (!displayData.length) {
+    noTripText.hidden = false;
+    return;
+  }
+
   location.innerHTML = '';
   displayData.forEach(data => {
     location.innerHTML += `
@@ -43,6 +48,10 @@ const dashboardButtonHandler = (event) => {
     displayTravelCards(traveler.filterTrips('past'), dashboardCardSection);
     break;
 
+  case 'Upcoming':
+    displayTravelCards(traveler.filterTrips('upcoming'), dashboardCardSection);
+    break;
+
   default:
     break;
   }
@@ -50,7 +59,7 @@ const dashboardButtonHandler = (event) => {
 
 const startListen = () => {
   dashboardNavButtons.addEventListener('click', dashboardButtonHandler);
-}
+};
 
 Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travelers', 43), apiCalls.fetchAllData('destinations')])
   .then(values => {
