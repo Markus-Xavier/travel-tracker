@@ -20,9 +20,19 @@
       <button>Upcoming</button>
       <button>Past</button>
       <button>Pending</button>
+      <button>Add A Trip</button>
     </nav>
-    <section class="dashboard-cards d-flex align-items-center flex-column">
+    <section class="dashboard-cards d-flex align-items-center flex-column" hidden>
       <span hidden>No trips to display</span>
+    </section>
+    <section>
+      <form name="trip-selection">
+        <input type="date" aria-label="date-selector" value="date">
+        <input type="number" aria-label="trip-duration" value="trip-duration" placeholder="Length Of Trip">
+        <input type="number" aria-label="number-of-travelers" value="num-of-travelers" placeholder="Number Of Travelers">
+        <select name="destinations"></select>
+        <input type="submit" aria-label="submit-travel-request">
+      </form>
     </section>
   </section>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->

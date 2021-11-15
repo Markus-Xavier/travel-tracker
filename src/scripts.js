@@ -14,12 +14,17 @@ const dashboardCardSection = document.getElementsByClassName('dashboard-cards')[
 const noTripText = document.querySelector('.dashboard-cards span');
 const userBadgeName = document.getElementsByClassName('user-badge-name')[0];
 const userBadgeAmount = document.getElementsByClassName('user-badge-amount')[0];
-
-
+const destinationSelect = document.querySelector('[name="destinations"]');
 
 const apiCalls = new ApiCalls();
 const dataManager = new DataManager();
 let traveler = null;
+
+const createDropdownSelectors = () => {
+  dataManager.getDestinationNames().forEach(name => {
+    destinationSelect.innerHTML += `<option value="${name}">${name}</option>`
+  });
+}
 
 const displayTravelCards = (displayData, location) => {
   location.innerHTML = '';
@@ -81,6 +86,7 @@ Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travele
   .then(values => {
     dataManager.setData('allTrips', values[0].trips);
     dataManager.setData('destinations', values[2].destinations);
+    createDropdownSelectors();
     traveler = new Traveler(dataManager, values[1]);
     traveler.getTravelerTrips();
     displayUserBadge(traveler);

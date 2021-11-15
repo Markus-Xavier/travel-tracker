@@ -36,4 +36,14 @@ describe('Data Manager', function() {
     assert.deepEqual(dataManager.getDataByID('allTrips', 'userID', 1), [testData.testTrips[0], testData.testTrips[2], testData.testTrips[4]]);
     assert.deepEqual(dataManager.getDataByID('allTrips', 'destinationID', 5), [testData.testTrips[4]]);
   });
+  
+  it('should return a list of all destination names', function() {
+    dataManager.setData('destinations', testData.testDestinations);
+    assert.deepEqual(dataManager.getDestinationNames(), ['Lima, Peru', 
+      'Stockholm, Sweden',
+      'Sydney, Austrailia',
+      'Cartagena, Colombia',
+      'Madrid, Spain'
+    ]);
+  });
 });
