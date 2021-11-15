@@ -32,8 +32,8 @@ describe('Data Manager', function() {
 
   it('should return specific data by ID', function() {
     dataManager.setData('allTrips', testData.testTrips);
-    assert.deepEqual(dataManager.getDataByID('allTrips', 'id', 5), [testData.testTrips[4]]);
-    assert.deepEqual(dataManager.getDataByID('allTrips', 'userID', 1), [testData.testTrips[0], testData.testTrips[2]]);
+    assert.deepEqual(dataManager.getDataByID('allTrips', 'id', 1), [testData.testTrips[0]]);
+    assert.deepEqual(dataManager.getDataByID('allTrips', 'userID', 1), [testData.testTrips[0], testData.testTrips[2], testData.testTrips[4]]);
     assert.deepEqual(dataManager.getDataByID('allTrips', 'destinationID', 5), [testData.testTrips[4]]);
   });
 });

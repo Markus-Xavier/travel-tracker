@@ -48,7 +48,7 @@ describe('Trip', function() {
   });
 
   it('should calculate how much a trip costs', function() {
-    assert.equal(trip1.calculateTripCost(), 960);
-    assert.equal(trip2.calculateTripCost(), 5700);
+    assert.equal(trip1.calculateTripCost(), 1056);
+    assert.equal(trip2.calculateTripCost(), 6270);
   });
 });

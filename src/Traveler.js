@@ -14,7 +14,7 @@ export default class Traveler {
     this.trips = trips.map(trip => new Trip(trip, this.dataManager));
   }
 
-  filterTrips(timeFrame) {
-    return this.trips.filter(trip => trip.timeFrame === timeFrame);
+  filterTrips(tripProperty, filterCriteria) {
+    return this.trips.filter(trip => trip[tripProperty] === filterCriteria);
   }
 }

@@ -13,6 +13,7 @@ describe('Traveler', function() {
   let trip2;
   let trip3; 
   let trip4;
+  let trip5;
 
 
 
@@ -26,6 +27,7 @@ describe('Traveler', function() {
     trip2 = new Trip(testData.testTrips[1], dataManager);
     trip3 = new Trip(testData.testTrips[2], dataManager);
     trip4 = new Trip(testData.testTrips[3], dataManager);
+    trip5 = new Trip(testData.testTrips[4], dataManager);
   });
 
   it('should be a function', function() {
@@ -51,7 +53,7 @@ describe('Traveler', function() {
 
   it('should store all of its trips', function() {
     traveler1.getTravelerTrips();
-    assert.deepEqual(traveler1.trips, [trip1, trip3]);
+    assert.deepEqual(traveler1.trips, [trip1, trip3, trip5]);
     traveler2.getTravelerTrips();
     assert.deepEqual(traveler2.trips, [trip2, trip4]);
   });
@@ -59,7 +61,20 @@ describe('Traveler', function() {
   it('should filter out all of its past trips', function() {
     traveler1.getTravelerTrips();
     traveler2.getTravelerTrips();
-    assert.deepEqual(traveler1.filterTrips('past'), [trip3]);
-    assert.deepEqual(traveler2.filterTrips('past'), [trip2]);
+    assert.deepEqual(traveler1.filterTrips('timeFrame', 'past'), [trip3]);
+    assert.deepEqual(traveler2.filterTrips('timeFrame', 'past'), [trip2]);
   });
+
+  it('should filter out all of its upcoming trips', function() {
+    traveler1.getTravelerTrips();
+    traveler2.getTravelerTrips();
+    assert.deepEqual(traveler1.filterTrips('timeFrame', 'upcoming'), [trip1, trip5]);
+    assert.deepEqual(traveler2.filterTrips('timeFrame', 'upcoming'), [trip4]);
+  });
+
+  it('should filter out pending trips', function() {
+    traveler1.getTravelerTrips();
+    traveler2.getTravelerTrips();
+    assert.deepEqual(traveler1.filterTrips('status', 'pending'), [trip5]);
+  })
 });

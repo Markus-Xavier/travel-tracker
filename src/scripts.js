@@ -20,12 +20,12 @@ const dataManager = new DataManager();
 let traveler = null;
 
 const displayTravelCards = (displayData, location) => {
+  location.innerHTML = '';
   if (!displayData.length) {
+    console.log('dog boy');
     noTripText.hidden = false;
     return;
   }
-
-  location.innerHTML = '';
   displayData.forEach(data => {
     location.innerHTML += `
     <div class="card">
@@ -45,13 +45,18 @@ const displayTravelCards = (displayData, location) => {
 const dashboardButtonHandler = (event) => {
   switch (event.target.innerText) {
   case 'Past':
-    displayTravelCards(traveler.filterTrips('past'), dashboardCardSection);
+    displayTravelCards(traveler.filterTrips('timeFrame', 'past'), dashboardCardSection);
     break;
 
   case 'Upcoming':
-    displayTravelCards(traveler.filterTrips('upcoming'), dashboardCardSection);
+    console.log()
+    displayTravelCards(traveler.filterTrips('timeFrame', 'upcoming'), dashboardCardSection);
     break;
 
+  case 'Pending':
+    displayTravelCards(traveler.filterTrips('status', 'pending'), dashboardCardSection);
+    break;
+  
   default:
     break;
   }
@@ -61,7 +66,7 @@ const startListen = () => {
   dashboardNavButtons.addEventListener('click', dashboardButtonHandler);
 };
 
-Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travelers', 43), apiCalls.fetchAllData('destinations')])
+Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travelers', 7), apiCalls.fetchAllData('destinations')])
   .then(values => {
     dataManager.setData('allTrips', values[0].trips);
     dataManager.setData('destinations', values[2].destinations);
