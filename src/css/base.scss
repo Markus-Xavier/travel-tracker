@@ -1,6 +1,63 @@
 /* This is an example of how to import a partial scss file*/
 @import '_variables';
+@import 'reset';
 
 body {
-  background: $primary-background;
+  padding: $primary-padding;
+}
+
+.d-flex{
+  display: flex;
+}
+
+.justify-content-space-between{
+  justify-content: space-between;
+}
+
+.align-content-center {
+  align-content: center;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+
+.flex-column {
+  flex-direction: column;
+}
+
+.user-badge {
+  height: 50px;
+  width: 171px;
+}
+
+.dashboard-cards {
+  padding-top: 32px;
+  .card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: $layout-border;
+    height: 80px;
+    width: 848px;
+  }
+
+  img{
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.dashboard-buttons {
+  height: 40px;
+  // width: 848px;
+  button {
+    height: 40px;
+    width: 200px;
+  }
 }

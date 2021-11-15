@@ -1,7 +1,8 @@
 export default class Trip {
-  constructor(tripData) {
+  constructor(tripData, dataManager) {
+    this.dataManager = dataManager;
     this.id = tripData.id;
-    this.destinationID = tripData.destinationID;
+    this.destination = this.getDestinationInfo(tripData.destinationID);
     this.travelers = tripData.travelers;
     this.date = tripData.date;
     this.duration = tripData.duration;
@@ -20,9 +21,19 @@ export default class Trip {
   getTripTimeFrame() {
     const convertedDates = this.convertDates();
     if (convertedDates.tripDate <= convertedDates.currentDate) {
-      return 'passed';
+      return 'past';
     } else {
       return 'upcoming';
     }
+  }
+
+  getDestinationInfo(destinationID) {
+    return this.dataManager.getDataByID('destinations', 'id', destinationID)[0];
+  }
+
+  calculateTripCost() {
+    return (this.destination.estimatedLodgingCostPerDay * this.duration) 
+    + 
+    (this.destination.estimatedFlightCostPerPerson * this.travelers);
   }
 }

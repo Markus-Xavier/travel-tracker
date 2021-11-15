@@ -1,6 +1,7 @@
 export default class DataManager {
   constructor () {
     this.allTrips = null;
+    this.destinations = null;
   }
 
   setData(dataSet, data) {

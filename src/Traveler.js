@@ -11,7 +11,7 @@ export default class Traveler {
 
   getTravelerTrips () {
     const trips = this.dataManager.getDataByID('allTrips', 'userID', this.id);
-    this.trips = trips.map(trip => new Trip(trip));
+    this.trips = trips.map(trip => new Trip(trip, this.dataManager));
   }
 
   filterTrips(timeFrame) {

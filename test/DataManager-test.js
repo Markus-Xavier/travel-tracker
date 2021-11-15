@@ -26,6 +26,8 @@ describe('Data Manager', function() {
     assert.equal(dataManager.allTrips, null);
     dataManager.setData('allTrips', testData.testTrips);
     assert.deepEqual(dataManager.allTrips, testData.testTrips);
+    dataManager.setData('dogBoy', 'I am a dog');
+    assert.equal(dataManager.dogBoy, 'I am a dog');
   });
 
   it('should return specific data by ID', function() {

@@ -19,12 +19,13 @@ describe('Traveler', function() {
   beforeEach(function() {
     dataManager = new DataManager();
     dataManager.setData('allTrips', testData.testTrips);
+    dataManager.setData('destinations', testData.testDestinations);
     traveler1 = new Traveler(dataManager, testData.testTravelers[0]);
     traveler2 = new Traveler(dataManager, testData.testTravelers[1]);
-    trip1 = new Trip(testData.testTrips[0]);
-    trip2 = new Trip(testData.testTrips[1]);
-    trip3 = new Trip(testData.testTrips[2]);
-    trip4 = new Trip(testData.testTrips[3]);
+    trip1 = new Trip(testData.testTrips[0], dataManager);
+    trip2 = new Trip(testData.testTrips[1], dataManager);
+    trip3 = new Trip(testData.testTrips[2], dataManager);
+    trip4 = new Trip(testData.testTrips[3], dataManager);
   });
 
   it('should be a function', function() {
@@ -55,10 +56,10 @@ describe('Traveler', function() {
     assert.deepEqual(traveler2.trips, [trip2, trip4]);
   });
 
-  it('should filter out all of its passed trips', function() {
+  it('should filter out all of its past trips', function() {
     traveler1.getTravelerTrips();
     traveler2.getTravelerTrips();
-    assert.deepEqual(traveler1.filterTrips('passed'), [trip3]);
-    assert.deepEqual(traveler2.filterTrips('passed'), [trip2]);
+    assert.deepEqual(traveler1.filterTrips('past'), [trip3]);
+    assert.deepEqual(traveler2.filterTrips('past'), [trip2]);
   });
 });
