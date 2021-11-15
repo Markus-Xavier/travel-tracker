@@ -15,14 +15,20 @@ const noTripText = document.querySelector('.dashboard-cards span');
 const userBadgeName = document.getElementsByClassName('user-badge-name')[0];
 const userBadgeAmount = document.getElementsByClassName('user-badge-amount')[0];
 const destinationSelect = document.querySelector('[name="destinations"]');
+const tripSelectionForm = document.querySelector('[name="trip-selection"]');
+
+//form selectors
+const tripSelectDate = document.getElementById('trip-selection-date');
+const tripSelectDuration = document.getElementById('trip-selection-duration');
+const tripSelectTravelers = document.getElementById('trip-selection-travelers');
 
 const apiCalls = new ApiCalls();
 const dataManager = new DataManager();
 let traveler = null;
 
 const createDropdownSelectors = () => {
-  dataManager.getDestinationNames().forEach(name => {
-    destinationSelect.innerHTML += `<option value="${name}">${name}</option>`
+  dataManager.getDestinationInfo().forEach(info => {
+    destinationSelect.innerHTML += `<option value="${info.id}">${info.name}</option>`
   });
 }
 
@@ -80,6 +86,19 @@ const dashboardButtonHandler = (event) => {
 
 const startListen = () => {
   dashboardNavButtons.addEventListener('click', dashboardButtonHandler);
+  tripSelectionForm.addEventListener('submit', event => {
+    event.preventDefault();
+    console.log(tripSelectDate.value,
+      tripSelectDuration.value, 
+      tripSelectTravelers.value,
+      destinationSelect.value)
+    // const selectedTripData {
+      // tripSelectDate.value,
+      // tripSelectDuration.value, 
+      // tripSelectTravelers.value,
+      // destinationSelect.value
+    // }
+  })
 };
 
 Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travelers', 7), apiCalls.fetchAllData('destinations')])

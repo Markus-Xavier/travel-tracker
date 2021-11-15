@@ -12,7 +12,13 @@ export default class DataManager {
     return this[dataSet].filter(data => data[typeOfID] === IDNumber);
   }
 
-  getDestinationNames() {
-    return this.destinations.map(destination => destination.destination);
+  getDestinationInfo() {
+    return this.destinations.reduce((list, destination) => {
+      list.push({
+        name: destination.destination,
+        id: destination.id
+      });
+      return list;
+    }, []);
   }
 }
