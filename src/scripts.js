@@ -44,9 +44,13 @@ const displayTravelCards = (displayData, location) => {
   });
 }
 
+function formatNumber(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 const displayUserBadge = (user) => {
   userBadgeName.innerText = `Hi, ${user.name}`;
-  userBadgeAmount.innerText = `Total spent on trips ${user}`
+  userBadgeAmount.innerText = `Spent this year $${formatNumber(user.getYearlySpent())}`;
 }
 
 const dashboardButtonHandler = (event) => {
@@ -79,6 +83,7 @@ Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travele
     dataManager.setData('destinations', values[2].destinations);
     traveler = new Traveler(dataManager, values[1]);
     traveler.getTravelerTrips();
+    displayUserBadge(traveler);
     startListen();
   });
 
