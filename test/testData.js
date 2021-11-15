@@ -15,7 +15,7 @@ const testData = {
       "userID": 2,
       "destinationID": 2,
       "travelers": 5,
-      "date": "2019/07/16",
+      "date": "2021/07/16",
       "duration": 18,
       "status": "approved",
       "suggestedActivities": []
@@ -42,12 +42,12 @@ const testData = {
     },
     {
       "id": 5,
-      "userID": 5,
+      "userID": 1,
       "destinationID": 5,
       "travelers": 3,
       "date": "2022/04/30",
       "duration": 18,
-      "status": "approved",
+      "status": "pending",
       "suggestedActivities": []
     }
   ], 

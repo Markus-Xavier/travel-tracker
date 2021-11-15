@@ -32,7 +32,7 @@ describe('Trip', function() {
     assert.equal(trip1.status, 'approved');
     assert.equal(trip2.id, 2);
     assert.equal(trip2.travelers, 5);
-    assert.equal(trip2.date, '2019/07/16');
+    assert.equal(trip2.date, '2021/07/16');
     assert.equal(trip2.duration, 18);
     assert.equal(trip2.status, 'approved');
   });
@@ -48,7 +48,7 @@ describe('Trip', function() {
   });
 
   it('should calculate how much a trip costs', function() {
-    assert.equal(trip1.calculateTripCost(), 960);
-    assert.equal(trip2.calculateTripCost(), 5700);
+    assert.equal(trip1.calculateTripCost(), 1056);
+    assert.equal(trip2.calculateTripCost(), 6270);
   });
 });

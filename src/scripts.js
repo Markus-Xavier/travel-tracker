@@ -12,6 +12,8 @@ import './images/turing-logo.png'
 const dashboardNavButtons = document.getElementsByClassName('dashboard-buttons')[0];
 const dashboardCardSection = document.getElementsByClassName('dashboard-cards')[0];
 const noTripText = document.querySelector('.dashboard-cards span');
+const userBadgeName = document.getElementsByClassName('user-badge-name')[0];
+const userBadgeAmount = document.getElementsByClassName('user-badge-amount')[0];
 
 
 
@@ -21,6 +23,11 @@ let traveler = null;
 
 const displayTravelCards = (displayData, location) => {
   location.innerHTML = '';
+  if (!displayData.length) {
+    console.log('dog boy');
+    noTripText.hidden = false;
+    return;
+  }
   displayData.forEach(data => {
     location.innerHTML += `
     <div class="card">
@@ -37,12 +44,30 @@ const displayTravelCards = (displayData, location) => {
   });
 }
 
+function formatNumber(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+const displayUserBadge = (user) => {
+  userBadgeName.innerText = `Hi, ${user.name}`;
+  userBadgeAmount.innerText = `Spent this year $${formatNumber(user.getYearlySpent())}`;
+}
+
 const dashboardButtonHandler = (event) => {
   switch (event.target.innerText) {
   case 'Past':
-    displayTravelCards(traveler.filterTrips('past'), dashboardCardSection);
+    displayTravelCards(traveler.filterTrips('timeFrame', 'past'), dashboardCardSection);
     break;
 
+  case 'Upcoming':
+    console.log()
+    displayTravelCards(traveler.filterTrips('timeFrame', 'upcoming'), dashboardCardSection);
+    break;
+
+  case 'Pending':
+    displayTravelCards(traveler.filterTrips('status', 'pending'), dashboardCardSection);
+    break;
+  
   default:
     break;
   }
@@ -50,14 +75,15 @@ const dashboardButtonHandler = (event) => {
 
 const startListen = () => {
   dashboardNavButtons.addEventListener('click', dashboardButtonHandler);
-}
+};
 
-Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travelers', 43), apiCalls.fetchAllData('destinations')])
+Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travelers', 7), apiCalls.fetchAllData('destinations')])
   .then(values => {
     dataManager.setData('allTrips', values[0].trips);
     dataManager.setData('destinations', values[2].destinations);
     traveler = new Traveler(dataManager, values[1]);
     traveler.getTravelerTrips();
+    displayUserBadge(traveler);
     startListen();
   });
 

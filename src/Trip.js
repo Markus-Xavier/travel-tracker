@@ -32,8 +32,11 @@ export default class Trip {
   }
 
   calculateTripCost() {
-    return (this.destination.estimatedLodgingCostPerDay * this.duration) 
+    const totalBeforeFee = 
+    (this.destination.estimatedLodgingCostPerDay * this.duration) 
     + 
     (this.destination.estimatedFlightCostPerPerson * this.travelers);
+    const travelAgentFee = totalBeforeFee * 0.1;
+    return totalBeforeFee + travelAgentFee;
   }
 }
