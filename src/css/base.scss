@@ -46,6 +46,7 @@ body {
     background-color: $primary-card-background;
     height: 80px;
     width: 848px;
+    margin-top: 24px;
   }
 
   img{
@@ -87,5 +88,10 @@ body {
 
 .confirm-button {
   background-color: $confirm;
+  color: white;
+}
+
+.decline-button {
+  background-color: $decline;
   color: white;
 }

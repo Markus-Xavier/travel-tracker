@@ -161,8 +161,8 @@ const displayBookingCard = (displayData, location) => {
   <div class="d-flex flex-column justify-content-space-between">
     <div>${trip.date}</div>
     <div>
-      <button>BOOK</button>
-      <button>CANCEL</button>
+      <button class="confirm-button">BOOK</button>
+      <button class="decline-button">CANCEL</button>
     </div>
   </div>
 </div>`
@@ -256,5 +256,3 @@ const initialize = (userID) => {
       toggleDisplay('dash-buttons', true);
     });
 };
-
-
