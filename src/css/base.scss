@@ -43,7 +43,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: $layout-border;
+    background-color: $primary-card-background;
     height: 80px;
     width: 848px;
   }
