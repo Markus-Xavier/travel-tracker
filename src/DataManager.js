@@ -11,4 +11,15 @@ export default class DataManager {
   getDataByID(dataSet, typeOfID, IDNumber) {
     return this[dataSet].filter(data => data[typeOfID] === IDNumber);
   }
+
+  getDestinationInfo() {
+    return this.destinations.reduce((list, destination) => {
+      list.push({
+        name: destination.destination,
+        id: destination.id
+      });
+      return list;
+    }, []);
+  }
+
 }

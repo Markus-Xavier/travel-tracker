@@ -9,22 +9,50 @@
 <body>
   <header class="d-flex justify-content-space-between">
     <h1>Travel Tracker</h1>
-    <div class="user-badge">
+    <div class="user-badge" hidden>
       <div class="user-badge-name">Hi, Dog Boy</div>
       <div class="user-badge-amount">$0.00</div>
     </div>
   </header>
-  <section class="dashboard">
-    <nav aria-label="dashboard-nav" class="dashboard-buttons d-flex justify-content-space-between">
-      <button>Current</button>
-      <button>Upcoming</button>
-      <button>Past</button>
-      <button>Pending</button>
-    </nav>
-    <section class="dashboard-cards d-flex align-items-center flex-column">
-      <span hidden>No trips to display</span>
+  <main>
+    <section class="login-card d-flex align-items-center justify-content-center">
+      <form name="login" class="d-flex flex-column">
+        <div class="d-flex flex-column">
+          <label for="login-username">Traveler ID</label>
+          <input id="login-username" type="text" aria-label="traveler-id" placeholder="traveler-id">
+        </div>
+        <div class="d-flex flex-column">
+          <label for="login-password">Password</label>
+          <input id="login-password" type="password" aria-label="password" placeholder="password">
+        </div>
+        <input class="confirm-button" type="submit" aria-label="login" value="Sign In">
+        <div class="invalid-text" hidden>Invalid username or password</div>
+      </form>
     </section>
-  </section>
+    <section class="dashboard">
+      <nav aria-label="dashboard-nav" class="dashboard-buttons d-flex justify-content-space-between" id="dash-buttons">
+        <button>Current</button>
+        <button>Upcoming</button>
+        <button>Past</button>
+        <button>Pending</button>
+        <button>Add A Trip</button>
+      </nav>
+      <section class="dashboard-cards d-flex align-items-center flex-column" id="dashboard-card-section" hidden>
+        <span hidden>No trips to display</span>
+      </section>
+      <section>
+        <form name="trip-selection" hidden>
+          <input id="trip-selection-date" type="date" aria-label="date-selector">
+          <input id="trip-selection-duration" type="number" aria-label="trip-duration" value="trip-duration" placeholder="Length Of Trip">
+          <input id="trip-selection-travelers" type="number" aria-label="number-of-travelers" value="num-of-travelers" placeholder="Number Of Travelers">
+          <select name="destinations"></select>
+          <input type="submit" aria-label="submit-travel-request">
+        </form>
+        <section class="dashboard-cards d-flex align-items-center flex-column" id="trip-book-card-section">
+        </section>
+      </section>
+    </section>
+  </main>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
 </body>

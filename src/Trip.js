@@ -20,6 +20,9 @@ export default class Trip {
 
   getTripTimeFrame() {
     const convertedDates = this.convertDates();
+    if (convertedDates.tripDate === convertedDates.currentDate) {
+      return 'current';
+    }
     if (convertedDates.tripDate <= convertedDates.currentDate) {
       return 'past';
     } else {

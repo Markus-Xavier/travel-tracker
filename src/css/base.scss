@@ -1,6 +1,7 @@
 /* This is an example of how to import a partial scss file*/
 @import '_variables';
 @import 'reset';
+@import '_mixin';
 
 body {
   padding: $primary-padding;
@@ -42,7 +43,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: $layout-border;
+    background-color: $primary-card-background;
     height: 80px;
     width: 848px;
   }
@@ -60,4 +61,31 @@ body {
     height: 40px;
     width: 200px;
   }
+}
+
+.hidden {
+  display: none;
+}
+
+.login-card {
+  @include height-width(290px, 100%);
+  background-color: $primary-card-background;
+  margin-top: 144px;
+
+  div {
+    @include height-width(67px, 296px);
+  }
+
+  input[type="submit"] {
+    align-self: end;
+  }
+
+  input {
+    margin-top: 4px;
+  }
+}
+
+.confirm-button {
+  background-color: $confirm;
+  color: white;
 }
