@@ -47,8 +47,8 @@ const toggleDisplay = (displayID, isDisplayed) => {
 }
 
 window.onload = () => {
-  toggleDisplay('dash-buttons', false);
   startListen();
+  loginCard.classList.add('hidden');
 }
 
 const validateLogin = (loginData) => {
@@ -67,8 +67,6 @@ const handleLogin = (event) => {
   if (validateLogin({username: username, password: password})) {
     loginForm.hidden = true;
     invalidText.hidden = true;
-    initialize(username.split('traveler')[1]);
-    loginCard.classList.add('hidden');
   } else {
     invalidText.hidden = false;
   }
@@ -243,9 +241,7 @@ const startListen = () => {
   });
   loginForm.addEventListener('submit', handleLogin);
 };
-
-const initialize = (userID) => {
-  Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travelers', `${userID}`), apiCalls.fetchAllData('destinations')])
+  Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travelers', `7`), apiCalls.fetchAllData('destinations')])
     .then(values => {
       dataManager.setData('allTrips', values[0].trips);
       dataManager.setData('destinations', values[2].destinations);
@@ -255,6 +251,3 @@ const initialize = (userID) => {
       displayUserBadge(traveler);
       toggleDisplay('dash-buttons', true);
     });
-};
-
-
