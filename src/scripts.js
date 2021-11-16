@@ -8,9 +8,11 @@ import './css/base.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
+import Trip from './Trip';
 
 const dashboardNavButtons = document.getElementsByClassName('dashboard-buttons')[0];
-const dashboardCardSection = document.getElementsByClassName('dashboard-cards')[0];
+const dashboardCardSection = document.getElementById('dashboard-card-section');
+const tripBookCardSection = document.getElementById('trip-book-card-section');
 const noTripText = document.querySelector('.dashboard-cards span');
 const userBadgeName = document.getElementsByClassName('user-badge-name')[0];
 const userBadgeAmount = document.getElementsByClassName('user-badge-amount')[0];
@@ -25,6 +27,7 @@ const tripSelectTravelers = document.getElementById('trip-selection-travelers');
 const apiCalls = new ApiCalls();
 const dataManager = new DataManager();
 let traveler = null;
+let pendingTripData = null;
 
 const createDropdownSelectors = () => {
   dataManager.getDestinationInfo().forEach(info => {
@@ -39,7 +42,7 @@ const formatDate = (date) => {
 
 const handleTripSelection = (event) => {
   event.preventDefault();
-  const selectedTripData = {
+  pendingTripData = {
     id: dataManager.allTrips.length + 1,
     userID: traveler.id,
     destinationID: parseInt(destinationSelect.value),
@@ -49,8 +52,18 @@ const handleTripSelection = (event) => {
     status: 'pending', 
     suggestedActivities: []
   };
-  apiCalls.postData('trips', selectedTripData);
+  displayBookingCard(pendingTripData, tripBookCardSection);
 };
+
+const displayTripSelectionForm = (isDisplayed) => {
+  tripSelectionForm.hidden = !isDisplayed;
+}
+
+const displayCardView = (isDisplayed) => {
+  if (!isDisplayed) {
+    dashboardCardSection.innerHTML = '';
+  }
+}
 
 const displayTravelCards = (displayData, location) => {
   location.innerHTML = '';
@@ -61,7 +74,7 @@ const displayTravelCards = (displayData, location) => {
   }
   displayData.forEach(data => {
     location.innerHTML += `
-    <div class="card">
+    <div class="card" value="${data.id}">
     <div class="d-flex">
       <img src="${data.destination.image}">
       <div class="d-flex flex-column justify-content-space-between">
@@ -75,7 +88,33 @@ const displayTravelCards = (displayData, location) => {
   });
 }
 
-function formatNumber(number) {
+const displayBookingCard = (displayData, location) => {
+  const trip = new Trip(displayData, dataManager);
+  location.innerHTML = '';
+  location.innerHTML = `
+  <div class="card" value="${trip.id}">
+  <div class="d-flex">
+    <img src="${trip.destination.image}">
+    <div class="d-flex flex-column justify-content-space-between">
+      <div>${trip.destination.destination}</div>
+      <div>$${trip.calculateTripCost()}</div>
+    </div>
+  </div>
+  <div class="d-flex flex-column justify-content-space-between">
+    <div>${trip.duration} days</div>
+    <div>${trip.travelers} travelers</div>
+  </div>
+  <div class="d-flex flex-column justify-content-space-between">
+    <div>${trip.date}</div>
+    <div>
+      <button>BOOK</button>
+      <button>CANCEL</button>
+    </div>
+  </div>
+</div>`
+}
+
+const formatNumber = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
@@ -87,18 +126,25 @@ const displayUserBadge = (user) => {
 const dashboardButtonHandler = (event) => {
   switch (event.target.innerText) {
   case 'Past':
+    displayTripSelectionForm(false)
     displayTravelCards(traveler.filterTrips('timeFrame', 'past'), dashboardCardSection);
     break;
 
   case 'Upcoming':
-    console.log()
+    displayTripSelectionForm(false)
     displayTravelCards(traveler.filterTrips('timeFrame', 'upcoming'), dashboardCardSection);
     break;
 
   case 'Pending':
+    displayTripSelectionForm(false);
     displayTravelCards(traveler.filterTrips('status', 'pending'), dashboardCardSection);
     break;
   
+  case 'Add A Trip':
+    displayCardView(false);
+    displayTripSelectionForm(true); 
+    break;
+
   default:
     break;
   }
@@ -107,6 +153,21 @@ const dashboardButtonHandler = (event) => {
 const startListen = () => {
   dashboardNavButtons.addEventListener('click', dashboardButtonHandler);
   tripSelectionForm.addEventListener('submit', handleTripSelection);
+  tripBookCardSection.addEventListener('click', (event) => {
+    console.log(event.target.innerText);
+    switch (event.target.innerText) {
+    case 'BOOK':
+      apiCalls.postData('trips', pendingTripData);
+      break;
+    
+    case 'CANCEL':
+      tripBookCardSection.innerHTML = '';
+      break;
+
+    default:
+      break;
+    }
+  });
 };
 
 Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travelers', 7), apiCalls.fetchAllData('destinations')])

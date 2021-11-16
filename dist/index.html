@@ -22,17 +22,19 @@
       <button>Pending</button>
       <button>Add A Trip</button>
     </nav>
-    <section class="dashboard-cards d-flex align-items-center flex-column" hidden>
+    <section class="dashboard-cards d-flex align-items-center flex-column" id="dashboard-card-section" hidden>
       <span hidden>No trips to display</span>
     </section>
     <section>
-      <form name="trip-selection">
+      <form name="trip-selection" hidden>
         <input id="trip-selection-date" type="date" aria-label="date-selector">
         <input id="trip-selection-duration" type="number" aria-label="trip-duration" value="trip-duration" placeholder="Length Of Trip">
         <input id="trip-selection-travelers" type="number" aria-label="number-of-travelers" value="num-of-travelers" placeholder="Number Of Travelers">
         <select name="destinations"></select>
         <input type="submit" aria-label="submit-travel-request">
       </form>
+      <section class="dashboard-cards d-flex align-items-center flex-column" id="trip-book-card-section">
+      </section>
     </section>
   </section>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
