@@ -24,10 +24,52 @@ const tripSelectDate = document.getElementById('trip-selection-date');
 const tripSelectDuration = document.getElementById('trip-selection-duration');
 const tripSelectTravelers = document.getElementById('trip-selection-travelers');
 
+//login selectors 
+const loginForm = document.querySelector('[name="login"]');
+const loginUsername = document.getElementById('login-username');
+const loginPassword = document.getElementById('login-password');
+const invalidText = document.getElementsByClassName('invalid-text')[0];
+
 const apiCalls = new ApiCalls();
 const dataManager = new DataManager();
 let traveler = null;
 let pendingTripData = null;
+
+const toggleDisplay = (displayID, isDisplayed) => {
+  var element = document.getElementById(`${displayID}`);
+  var children = element.children;
+  for (var i = 0; i < children.length; i++) {
+    var child = children[i];
+    child.hidden = !isDisplayed;
+  }
+}
+
+window.onload = () => {
+  toggleDisplay('dash-buttons', false);
+  startListen();
+}
+
+const validateLogin = (loginData) => {
+  const splitString = loginData.username.split('traveler');
+  if (splitString[0] === '' && parseInt(splitString[1]) <= 50 && loginData.password === 'travel') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const handleLogin = (event) => {
+  event.preventDefault();
+  const username = loginUsername.value;
+  const password = loginPassword.value;
+  if (validateLogin({username: username, password: password})) {
+    loginForm.hidden = true;
+    invalidText.hidden = true;
+    initialize(username.split('traveler')[1]);
+  } else {
+    invalidText.hidden = false;
+  }
+}
 
 const createDropdownSelectors = () => {
   dataManager.getDestinationInfo().forEach(info => {
@@ -168,16 +210,20 @@ const startListen = () => {
       break;
     }
   });
+  loginForm.addEventListener('submit', handleLogin);
 };
 
-Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travelers', 7), apiCalls.fetchAllData('destinations')])
-  .then(values => {
-    dataManager.setData('allTrips', values[0].trips);
-    dataManager.setData('destinations', values[2].destinations);
-    createDropdownSelectors();
-    traveler = new Traveler(dataManager, values[1]);
-    traveler.getTravelerTrips();
-    displayUserBadge(traveler);
-    startListen();
-  });
+const initialize = (userID) => {
+  Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travelers', `${userID}`), apiCalls.fetchAllData('destinations')])
+    .then(values => {
+      dataManager.setData('allTrips', values[0].trips);
+      dataManager.setData('destinations', values[2].destinations);
+      createDropdownSelectors();
+      traveler = new Traveler(dataManager, values[1]);
+      traveler.getTravelerTrips();
+      displayUserBadge(traveler);
+      toggleDisplay('dash-buttons', true);
+    });
+};
+
 
