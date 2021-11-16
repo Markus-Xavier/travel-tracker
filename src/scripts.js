@@ -30,7 +30,27 @@ const createDropdownSelectors = () => {
   dataManager.getDestinationInfo().forEach(info => {
     destinationSelect.innerHTML += `<option value="${info.id}">${info.name}</option>`
   });
-}
+};
+
+const formatDate = (date) => {
+  const formattedDate = date.replaceAll('-', '/');
+  return formattedDate;
+};
+
+const handleTripSelection = (event) => {
+  event.preventDefault();
+  const selectedTripData = {
+    id: dataManager.allTrips.length + 1,
+    userID: traveler.id,
+    destinationID: parseInt(destinationSelect.value),
+    travelers: tripSelectTravelers.value,
+    date: formatDate(tripSelectDate.value),
+    duration: tripSelectDuration.value,
+    status: 'pending', 
+    suggestedActivities: []
+  };
+  apiCalls.postData('trips', selectedTripData);
+};
 
 const displayTravelCards = (displayData, location) => {
   location.innerHTML = '';
@@ -86,19 +106,7 @@ const dashboardButtonHandler = (event) => {
 
 const startListen = () => {
   dashboardNavButtons.addEventListener('click', dashboardButtonHandler);
-  tripSelectionForm.addEventListener('submit', event => {
-    event.preventDefault();
-    console.log(tripSelectDate.value,
-      tripSelectDuration.value, 
-      tripSelectTravelers.value,
-      destinationSelect.value)
-    // const selectedTripData {
-      // tripSelectDate.value,
-      // tripSelectDuration.value, 
-      // tripSelectTravelers.value,
-      // destinationSelect.value
-    // }
-  })
+  tripSelectionForm.addEventListener('submit', handleTripSelection);
 };
 
 Promise.all([apiCalls.fetchAllData('trips'), apiCalls.fetchSpecificData('travelers', 7), apiCalls.fetchAllData('destinations')])
