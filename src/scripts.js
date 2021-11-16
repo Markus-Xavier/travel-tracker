@@ -16,8 +16,10 @@ const tripBookCardSection = document.getElementById('trip-book-card-section');
 const noTripText = document.querySelector('.dashboard-cards span');
 const userBadgeName = document.getElementsByClassName('user-badge-name')[0];
 const userBadgeAmount = document.getElementsByClassName('user-badge-amount')[0];
+const userBadge = document.getElementsByClassName('user-badge')[0];
 const destinationSelect = document.querySelector('[name="destinations"]');
 const tripSelectionForm = document.querySelector('[name="trip-selection"]');
+const loginCard = document.getElementsByClassName('login-card')[0];
 
 //form selectors
 const tripSelectDate = document.getElementById('trip-selection-date');
@@ -66,6 +68,7 @@ const handleLogin = (event) => {
     loginForm.hidden = true;
     invalidText.hidden = true;
     initialize(username.split('traveler')[1]);
+    loginCard.classList.add('hidden');
   } else {
     invalidText.hidden = false;
   }
@@ -109,9 +112,12 @@ const displayCardView = (isDisplayed) => {
 
 const displayTravelCards = (displayData, location) => {
   location.innerHTML = '';
+  console.log(displayData);
   if (!displayData.length) {
     console.log('dog boy');
+    console.log(noTripText);
     noTripText.hidden = false;
+    location.innerHTML = noTripText.innerText;
     return;
   }
   displayData.forEach(data => {
@@ -124,9 +130,15 @@ const displayTravelCards = (displayData, location) => {
         <div>$${data.calculateTripCost()}</div>
       </div>
     </div>
-    <div>${data.duration} days</div>
+    <div class="d-flex flex-column justify-content-space-between">
+      <div>${data.duration} days</div>
+      <div>${data.travelers} travelers</div>
+    </div>
+  <div class="d-flex flex-column justify-content-space-between">
     <div>${data.date}</div>
-    </div>`
+    <div>${data.timeFrame}</div>
+    <div>${data.status}</div>
+  </div>`
   });
 }
 
@@ -161,30 +173,47 @@ const formatNumber = (number) => {
 }
 
 const displayUserBadge = (user) => {
+  userBadge.hidden = false;
   userBadgeName.innerText = `Hi, ${user.name}`;
   userBadgeAmount.innerText = `Spent this year $${formatNumber(user.getYearlySpent())}`;
 }
 
+const displayTimeFrameView = (timeFrame) => {
+  displayTripSelectionForm(false);
+  displayTravelCards(traveler.filterTrips('timeFrame', `${timeFrame}`), dashboardCardSection);
+  tripBookCardSection.classList.add('hidden');
+}
+
+const displayPending = () => {
+  displayTripSelectionForm(false);
+  displayTravelCards(traveler.filterTrips('status', 'pending'), dashboardCardSection);
+  tripBookCardSection.classList.add('hidden');
+}
+
 const dashboardButtonHandler = (event) => {
   switch (event.target.innerText) {
+
+  case 'Current':
+    displayTimeFrameView('current');
+    break;
+
   case 'Past':
-    displayTripSelectionForm(false)
-    displayTravelCards(traveler.filterTrips('timeFrame', 'past'), dashboardCardSection);
+    displayTimeFrameView('past');
     break;
 
   case 'Upcoming':
-    displayTripSelectionForm(false)
-    displayTravelCards(traveler.filterTrips('timeFrame', 'upcoming'), dashboardCardSection);
+    displayTimeFrameView('upcoming');
     break;
 
   case 'Pending':
-    displayTripSelectionForm(false);
-    displayTravelCards(traveler.filterTrips('status', 'pending'), dashboardCardSection);
+    displayPending();
     break;
-  
+
   case 'Add A Trip':
     displayCardView(false);
     displayTripSelectionForm(true); 
+    tripBookCardSection.classList.remove('hidden');
+    tripBookCardSection.innerHTML = '';
     break;
 
   default:
@@ -200,6 +229,8 @@ const startListen = () => {
     switch (event.target.innerText) {
     case 'BOOK':
       apiCalls.postData('trips', pendingTripData);
+      traveler.trips.push(new Trip(pendingTripData, dataManager));
+      displayPending();
       break;
     
     case 'CANCEL':
