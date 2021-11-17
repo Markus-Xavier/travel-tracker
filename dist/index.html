@@ -30,6 +30,7 @@
       </form>
     </section>
     <section class="dashboard">
+      <div id="loading-error-text" class="hidden">There was an issue logging you in, please try again!</div>
       <nav aria-label="dashboard-nav" class="dashboard-buttons d-flex justify-content-space-between" id="dash-buttons">
         <button>Current</button>
         <button>Upcoming</button>
@@ -42,9 +43,9 @@
       </section>
       <section class="d-flex align-items-center flex-column">
         <form name="trip-selection" hidden>
-          <input id="trip-selection-date" type="date" aria-label="date-selector">
-          <input id="trip-selection-duration" type="number" aria-label="trip-duration" value="trip-duration" placeholder="Length Of Trip">
-          <input id="trip-selection-travelers" type="number" aria-label="number-of-travelers" value="num-of-travelers" placeholder="Number Of Travelers">
+          <input id="trip-selection-date" type="date" aria-label="date-selector" required>
+          <input id="trip-selection-duration" type="number" aria-label="trip-duration" value="trip-duration" placeholder="Length Of Trip" required>
+          <input id="trip-selection-travelers" type="number" aria-label="number-of-travelers" value="num-of-travelers" placeholder="Number Of Travelers" required>
           <select name="destinations"></select>
           <input type="submit" aria-label="submit-travel-request">
         </form>

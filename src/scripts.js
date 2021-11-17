@@ -31,6 +31,7 @@ const loginForm = document.querySelector('[name="login"]');
 const loginUsername = document.getElementById('login-username');
 const loginPassword = document.getElementById('login-password');
 const invalidText = document.getElementsByClassName('invalid-text')[0];
+const loadingErrorText = document.getElementById('loading-error-text');
 
 const apiCalls = new ApiCalls();
 const dataManager = new DataManager();
@@ -112,10 +113,7 @@ const displayCardView = (isDisplayed) => {
 
 const displayTravelCards = (displayData, location) => {
   location.innerHTML = '';
-  console.log(displayData);
   if (!displayData.length) {
-    console.log('dog boy');
-    console.log(noTripText);
     noTripText.hidden = false;
     location.innerHTML = noTripText.innerText;
     return;
@@ -225,7 +223,6 @@ const startListen = () => {
   dashboardNavButtons.addEventListener('click', dashboardButtonHandler);
   tripSelectionForm.addEventListener('submit', handleTripSelection);
   tripBookCardSection.addEventListener('click', (event) => {
-    console.log(event.target.innerText);
     switch (event.target.innerText) {
     case 'BOOK':
       apiCalls.postData('trips', pendingTripData);
@@ -254,5 +251,9 @@ const initialize = (userID) => {
       traveler.getTravelerTrips();
       displayUserBadge(traveler);
       toggleDisplay('dash-buttons', true);
+    })
+    .catch(error => {
+      console.log(loadingErrorText);
+      loadingErrorText.classList.remove('hidden');
     });
 };
